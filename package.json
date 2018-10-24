@@ -1,0 +1,26 @@
+{
+  "name": "typr.ts",
+  "version": "1.0.0",
+  "description": "TypeScript fork of https://github.com/photopea/Typr.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "precompile": "tsc -p src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fredli74/Typr.ts.git"
+  },
+  "keywords": [
+    "typr.js",
+    "typescript"
+  ],
+  "author": "Fredrik Lidström",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.1.3"
+  }
+}

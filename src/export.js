@@ -1,0 +1,1 @@
+exports.Typr = Typr;

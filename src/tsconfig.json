@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": false,
+    "outFile": "../dist/Typr.js",
+    "strict": true,
+    "declaration": false,
+  },
+  "files": [
+    "main.js",
+    "bin.js",
+    "lctf.js",
+    "tabs/cff.js",
+    "tabs/cmap.js",
+    "tabs/glyf.js",
+    "tabs/GPOS.js",
+    "tabs/GSUB.js",
+    "tabs/head.js",
+    "tabs/hhea.js",
+    "tabs/hmtx.js",
+    "tabs/kern.js",
+    "tabs/loca.js",
+    "tabs/maxp.js",
+    "tabs/name.js",
+    "tabs/os-2.js",
+    "tabs/post.js",
+    "tabs/SVG.js",
+    "Typr.U.js",
+    "export.js"
+  ]
+}
