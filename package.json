@@ -1,15 +1,13 @@
 {
-  "name": "typr.ts",
-  "version": "1.0.0",
+  "name": "@fredli74/typr",
+  "version": "0.1.0",
   "description": "TypeScript fork of https://github.com/photopea/Typr.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "build": "npm run precompile && tsc",
-    "precompile": "tsc -p src"
+    "prepare": "npm run build",
+    "precompile": "tsc -p src",
+    "build": "npm run precompile && tsc"
   },
   "repository": {
     "type": "git",

@@ -7,10 +7,16 @@ I use this library in one of my own TypeScript projects and have only added clas
 * `Typr.parse(buffer)` is done through the class constructor `new typr.Font(buffer)`
 * `Typr.U` functions are members of the class `font.codeToGlyph(code)`
 
+#### Installation
+
+```sh
+npm install @fredli74/typr --save-dev
+```
+
 #### node load example
 ```typescript
 import * as fs from "fs";
-import * as typr from 'typr.ts';
+import * as typr from '@fredli74/typr';
 
 function toArrayBuffer(buf: Buffer) {
 	let ab = new ArrayBuffer(buf.length);
