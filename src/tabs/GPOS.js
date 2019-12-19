@@ -4,13 +4,13 @@ Typr.GPOS = {};
 Typr.GPOS.parse = function(data, offset, length, font) {  return Typr._lctf.parse(data, offset, length, font, Typr.GPOS.subt);  }
 
 
-Typr.GPOS.subt = function(data, ltype, offset)	// lookup type
+Typr.GPOS.subt = function(data, ltype, offset, ltable)	// lookup type
 {
 	var bin = Typr._bin, offset0 = offset, tab = {};
 	
 	tab.fmt  = bin.readUshort(data, offset);  offset+=2;
 	
-	//console.log(ltype, tab.fmt);
+	//console.warn(ltype, tab.fmt);
 	
 	if(ltype==1 || ltype==2 || ltype==3 || ltype==7 || (ltype==8 && tab.fmt<=2)) {
 		var covOff  = bin.readUshort(data, offset);  offset+=2;
@@ -21,7 +21,7 @@ Typr.GPOS.subt = function(data, ltype, offset)	// lookup type
 		var ones1 = Typr._lctf.numOfOnes(valFmt1);
 		if(valFmt1!=0)  tab.pos = Typr.GPOS.readValueRecord(data, offset, valFmt1);
 	}
-	else if(ltype==2) {
+	else if(ltype==2 && tab.fmt>=1 && tab.fmt<=2) {
 		var valFmt1 = bin.readUshort(data, offset);  offset+=2;
 		var valFmt2 = bin.readUshort(data, offset);  offset+=2;
 		var ones1 = Typr._lctf.numOfOnes(valFmt1);
@@ -66,17 +66,27 @@ Typr.GPOS.subt = function(data, ltype, offset)	// lookup type
 				for(var j=0; j<class2Count; j++)
 				{
 					var value1 = null, value2 = null;
-					if(tab.valFmt1!=0) { value1 = Typr.GPOS.readValueRecord(data, offset, tab.valFmt1);  offset+=ones1*2; }
-					if(tab.valFmt2!=0) { value2 = Typr.GPOS.readValueRecord(data, offset, tab.valFmt2);  offset+=ones2*2; }
+					if(valFmt1!=0) { value1 = Typr.GPOS.readValueRecord(data, offset, valFmt1);  offset+=ones1*2; }
+					if(valFmt2!=0) { value2 = Typr.GPOS.readValueRecord(data, offset, valFmt2);  offset+=ones2*2; }
 					row.push({val1:value1, val2:value2});
 				}
 				tab.matrix.push(row);
 			}
 		}
 	}
-	else if(ltype==4) {
-		
+	else if(ltype==9 && tab.fmt==1) {
+		var extType = bin.readUshort(data, offset);  offset+=2;
+		var extOffset = bin.readUint(data, offset);  offset+=4;
+		if (ltable.ltype==9) {
+			ltable.ltype = extType;
+		} else if (ltable.ltype!=extType) {
+			throw "invalid extension substitution"; // all subtables must be the same type
+		}
+		return Typr.GPOS.subt(data, ltable.ltype, offset0+extOffset);
 	}
+	/*else if(ltype==4) {
+		
+	}*/
 	return tab;
 }
 

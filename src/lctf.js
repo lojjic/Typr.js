@@ -40,7 +40,7 @@ Typr._lctf.readLookupList = function(data, offset, subt)
 
 Typr._lctf.readLookupTable = function(data, offset, subt)
 {
-	//console.log("Parsing lookup table", offset);
+	//console.warn("Parsing lookup table", offset);
 	var bin = Typr._bin;
 	var offset0 = offset;
 	var obj = {tabs:[]};
@@ -49,11 +49,12 @@ Typr._lctf.readLookupTable = function(data, offset, subt)
 	obj.flag  = bin.readUshort(data, offset);  offset+=2;
 	var cnt   = bin.readUshort(data, offset);  offset+=2;
 	
+	var ltype = obj.ltype; // extension substitution can change this value
 	for(var i=0; i<cnt; i++)
 	{
 		var noff = bin.readUshort(data, offset);  offset+=2;
-		var tab = subt(data, obj.ltype, offset0 + noff);
-		//console.log(obj.type, tab);
+		var tab = subt(data, ltype, offset0 + noff, obj);
+		//console.warn(obj.type, tab);
 		obj.tabs.push(tab);
 	}
 	return obj;
@@ -111,7 +112,7 @@ Typr._lctf.readCoverage = function(data, offset)
 	var cvg = {};
 	cvg.fmt   = bin.readUshort(data, offset);  offset+=2;
 	var count = bin.readUshort(data, offset);  offset+=2;
-	//console.log("parsing coverage", offset-4, format, count);
+	//console.warn("parsing coverage", offset-4, format, count);
 	if(cvg.fmt==1) cvg.tab = bin.readUshorts(data, offset, count); 
 	if(cvg.fmt==2) cvg.tab = bin.readUshorts(data, offset, count*3);
 	return cvg;
@@ -212,7 +213,7 @@ Typr._lctf.readLangSysTable = function(data, offset)
 	obj.reqFeature = bin.readUshort(data, offset);  offset+=2;
 	//if(obj.reqFeature != 0xffff) throw "reqFeatureIndex != 0xffff";
 	
-	//console.log(lookupOrder, obj.reqFeature);
+	//console.warn(lookupOrder, obj.reqFeature);
 	
 	var featureCount = bin.readUshort(data, offset);  offset+=2;
 	obj.features = bin.readUshorts(data, offset, featureCount);
