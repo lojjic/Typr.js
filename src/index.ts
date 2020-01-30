@@ -133,7 +133,7 @@ export class Font {
 	public glyphsToPath(gls: number[]): Path {
 		return TyprJS.U.glyphsToPath(this, gls);
 	}
-	public pathToSVG(path: Path, prec: Number): string {
+	public pathToSVG(path: Path, prec?: Number): string {
 		return TyprJS.U.pathToSVG(path, prec);
 	}
 	public pathToContext(path: Path, ctx: CanvasRenderingContext2D): void {
