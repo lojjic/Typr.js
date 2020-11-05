@@ -168,7 +168,7 @@ Typr.U.getPairAdjustment = function(font, g1, g2)
 				
 				for(var j=0; j<tab.tabs.length; j++)
 				{
-					if(tab.tabs[i]==null) continue;
+					if(tab.tabs[j]==null) continue;
 					var ltab = tab.tabs[j], ind;
 					if(ltab.coverage) {  ind = Typr._lctf.coverageIndex(ltab.coverage, g1);  if(ind==-1) continue;  }
 					
