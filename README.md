@@ -2,7 +2,11 @@
 
 TypeScript class wrapper for [photopea/Typr.js](https://github.com/photopea/Typr.js).
 
-I use this library in one of my own TypeScript projects and have only added class features that I needed. Design goal was to keep the core Typr.js as untouched as possible to make eventual merging easier.
+Design goal was to keep the core Typr.js fork in a separate [branch](https://github.com/fredli74/Typr.ts/tree/Typr.js) as close to the original as possible to make eventual merging easier.
+
+As of May 2020, the official photopea Typr.js project switched to using HarfBuzz and threw a lot of the font format parsing out. For that reason, my fork will have to continue it's own path.
+
+I use this library in one of my own TypeScript projects and have only added class features that I needed.
 
 * `Typr.parse(buffer)` is done through the class constructor `new typr.Font(buffer)`
 * `Typr.U` functions are members of the class `font.codeToGlyph(code)`
