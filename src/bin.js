@@ -11,33 +11,19 @@ Typr._bin = {
 	},
 	readInt : function(buff, p)
 	{
-		//if(p>=buff.length) throw "error";
-		var a = Typr._bin.t.uint8;
-		a[0] = buff[p+3];
-		a[1] = buff[p+2];
-		a[2] = buff[p+1];
-		a[3] = buff[p];
-		return Typr._bin.t.int32[0];
+		return Typr._bin._view(buff).getInt32(p);
 	},
-	
 	readInt8 : function(buff, p)
 	{
-		//if(p>=buff.length) throw "error";
-		var a = Typr._bin.t.uint8;
-		a[0] = buff[p];
-		return Typr._bin.t.int8[0];
+		return Typr._bin._view(buff).getInt8(p);
 	},
 	readShort : function(buff, p)
 	{
-		//if(p>=buff.length) throw "error";
-		var a = Typr._bin.t.uint8;
-		a[1] = buff[p]; a[0] = buff[p+1];
-		return Typr._bin.t.int16[0];
+		return Typr._bin._view(buff).getInt16(p);
 	},
 	readUshort : function(buff, p)
 	{
-		//if(p>=buff.length) throw "error";
-		return (buff[p]<<8) | buff[p+1];
+		return Typr._bin._view(buff).getUint16(p);
 	},
 	readUshorts : function(buff, p, len)
 	{
@@ -47,10 +33,7 @@ Typr._bin = {
 	},
 	readUint : function(buff, p)
 	{
-		//if(p>=buff.length) throw "error";
-		var a = Typr._bin.t.uint8;
-		a[3] = buff[p];  a[2] = buff[p+1];  a[1] = buff[p+2];  a[0] = buff[p+3];
-		return Typr._bin.t.uint32[0];
+		return Typr._bin._view(buff).getUint32(p);
 	},
 	readUint64 : function(buff, p)
 	{
@@ -95,18 +78,11 @@ Typr._bin = {
 		for(var i = 0; i < l; i++)	
 			s.push(String.fromCharCode(buff[p+i]));
 		return s;
+	},
+	_view: function(buff) {
+		return buff._dataView || (buff._dataView = buff.buffer ?
+			new DataView(buff.buffer, buff.byteOffset, buff.byteLength) :
+			new DataView(new Uint8Array(buff).buffer)
+		);
 	}
 };
-
-Typr._bin.t = {
-	buff: new ArrayBuffer(8),
-};
-Typr._bin.t.int8   = new Int8Array  (Typr._bin.t.buff);
-Typr._bin.t.uint8  = new Uint8Array (Typr._bin.t.buff);
-Typr._bin.t.int16  = new Int16Array (Typr._bin.t.buff);
-Typr._bin.t.uint16 = new Uint16Array(Typr._bin.t.buff);
-Typr._bin.t.int32  = new Int32Array (Typr._bin.t.buff);
-Typr._bin.t.uint32 = new Uint32Array(Typr._bin.t.buff);
-
-
-
