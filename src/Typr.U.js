@@ -153,6 +153,8 @@ Typr.U._getGlyphClass = function(g, cd)
 Typr.U.getPairAdjustment = function(font, g1, g2)
 {
 	var offset = 0;
+	var hasGPOSkern = false;
+
 	if(font.GPOS) {
 		var gpos = font["GPOS"];
 		var llist = gpos.lookupList, flist = gpos.featureList;
@@ -160,7 +162,7 @@ Typr.U.getPairAdjustment = function(font, g1, g2)
 		for(var i=0; i<flist.length; i++) 
 		{
 			var fl = flist[i];  //console.warn(fl);
-			if(fl.tag!="kern") continue;
+			if(fl.tag!="kern") continue; hasGPOSkern = true;
 			for(var ti=0; ti<fl.tab.length; ti++) {
 				if(tused[fl.tab[ti]]) continue;  tused[fl.tab[ti]] = true;
 				var tab = llist[fl.tab[ti]];
@@ -196,7 +198,7 @@ Typr.U.getPairAdjustment = function(font, g1, g2)
 			}
 		}
 	}
-	if(font.kern)
+	if(font.kern && !hasGPOSkern)
 	{
 		var ind1 = font.kern.glyph1.indexOf(g1);
 		if(ind1!=-1)
