@@ -183,19 +183,23 @@ Typr.U.getPairAdjustment = function (font, g1, g2) {
 					if (tab.ltype == 1) {
 						//console.warn(ltab);
 					} else if (tab.ltype == 2) {
-						var adj;
+						var adj = null;
 						if (ltab.fmt == 1) {
 							var right = ltab.pairsets[ind];
-							for (var i = 0; i < right.length; i++) if (right[i].gid2 == g2) adj = right[i];
+							for (var i = 0; i < right.length; i++) {
+								if (right[i].gid2 == g2) adj = right[i];
+							}
 						} else if (ltab.fmt == 2) {
 							var c1 = Typr.U._getGlyphClass(g1, ltab.classDef1);
 							var c2 = Typr.U._getGlyphClass(g2, ltab.classDef2);
 							adj = ltab.matrix[c1][c2];
 						}
-						var offset = 0;
-						if (adj && adj.val1 && adj.val1[2]) offset += adj.val1[2];  // xAdvance adjustment of first glyph
-						if (adj && adj.val2 && adj.val2[0]) offset += adj.val2[0];	// xPlacement adjustment of second glyph
-						return offset;
+						if (adj) {
+							var offset = 0;
+							if (adj.val1 && adj.val1[2]) offset += adj.val1[2];  // xAdvance adjustment of first glyph
+							if (adj.val2 && adj.val2[0]) offset += adj.val2[0];	// xPlacement adjustment of second glyph
+							return offset;
+						}
 					}
 				}
 			}
