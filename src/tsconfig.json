@@ -13,6 +13,7 @@
     "tabs/cff.js",
     "tabs/cmap.js",
     "tabs/glyf.js",
+    "tabs/GDEF.js",
     "tabs/GPOS.js",
     "tabs/GSUB.js",
     "tabs/head.js",
