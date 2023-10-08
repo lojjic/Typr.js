@@ -1,6 +1,6 @@
 {
-  "name": "@fredli74/typr",
-  "version": "0.3.8",
+  "name": "@lojjic/typr",
+  "version": "0.3.8-lojjic1",
   "description": "TypeScript fork of https://github.com/photopea/Typr.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,4 +1,6 @@
-# Typr.ts  
+# @lojjic/typr
+
+> NOTE: This is a temporary branch forked from [fredli74/Typr.js](https://github.com/fredli74/Typr.ts) for the sole purpose of NPM-publishing accumulated fixes/changes that have not yet been merged back into fredli74's repo, for use in [troika-three-text](https://github.com/protectwise/troika/tree/main/packages/troika-three-text). Don't rely on it - `@fredli74/typr` is the canonical version.
 
 TypeScript class wrapper for [photopea/Typr.js](https://github.com/photopea/Typr.js).
 
