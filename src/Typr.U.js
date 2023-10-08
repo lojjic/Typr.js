@@ -238,6 +238,7 @@ Typr.U.stringToGlyphs = function (font, str) {
 	var cligs = [
 		"rlig",
 		"liga",
+		"ccmp",
 		"mset",
 		"isol",
 		"init",
