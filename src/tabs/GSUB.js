@@ -7,25 +7,34 @@ Typr.GSUB.parse = function(data, offset, length, font) {  return Typr._lctf.pars
 Typr.GSUB.subt = function(data, ltype, offset, ltable)	// lookup type
 {
 	var bin = Typr._bin, offset0 = offset, tab = {};
-	
+
 	tab.fmt  = bin.readUshort(data, offset);  offset+=2;
-	
-	if(ltype!=1 && ltype!=4 && ltype!=5 && ltype!=6) return null;
-	
-	if(ltype==1 || ltype==4 || (ltype==5 && tab.fmt<=2) || (ltype==6 && tab.fmt<=2)) {
+
+	if(ltype!=1 && ltype!=2 && ltype!=4 && ltype!=5 && ltype!=6) return null;
+
+	if(ltype==1 || ltype==2 || ltype==4 || (ltype==5 && tab.fmt<=2) || (ltype==6 && tab.fmt<=2)) {
 		var covOff  = bin.readUshort(data, offset);  offset+=2;
 		tab.coverage = Typr._lctf.readCoverage(data, offset0+covOff);	// not always is coverage here
 	}
-	
-	if(false) {}
+
 	//  Single Substitution Subtable
-	else if(ltype==1 && tab.fmt>=1 && tab.fmt<=2) {	
+	if(ltype==1 && tab.fmt>=1 && tab.fmt<=2) {
 		if(tab.fmt==1) {
 			tab.delta = bin.readShort(data, offset);  offset+=2;
 		}
 		else if(tab.fmt==2) {
 			var cnt = bin.readUshort(data, offset);  offset+=2;
 			tab.newg = bin.readUshorts(data, offset, cnt);  offset+=tab.newg.length*2;
+		}
+	}
+	//  Multiple Substitution Subtable (decomposition)
+	else if(ltype==2 && tab.fmt==1) {
+		var cnt = bin.readUshort(data, offset);  offset+=2;
+		tab.seqs = [];
+		for (var i=0; i<cnt; i++) {
+			var seqOff = bin.readUshort(data, offset) + offset0;  offset+=2;
+			var seqSize = bin.readUshort(data, seqOff);
+			tab.seqs.push(bin.readUshorts(data, seqOff + 2, seqSize));
 		}
 	}
 	//  Ligature Substitution Subtable
@@ -38,7 +47,7 @@ Typr.GSUB.subt = function(data, ltype, offset, ltable)	// lookup type
 		}
 		//console.warn(tab.coverage);
 		//console.warn(tab.vals);
-	} 
+	}
 	//  Contextual Substitution Subtable
 	else if(ltype==5 && tab.fmt==2) {
 		if(tab.fmt==2) {
@@ -61,11 +70,11 @@ Typr.GSUB.subt = function(data, ltype, offset, ltable)	// lookup type
 			var btDef = bin.readUshort(data, offset);  offset+=2;
 			var inDef = bin.readUshort(data, offset);  offset+=2;
 			var laDef = bin.readUshort(data, offset);  offset+=2;
-			
+
 			tab.btDef = Typr._lctf.readClassDef(data, offset0 + btDef);
 			tab.inDef = Typr._lctf.readClassDef(data, offset0 + inDef);
 			tab.laDef = Typr._lctf.readClassDef(data, offset0 + laDef);
-			
+
 			tab.scset = [];
 			var cnt = bin.readUshort(data, offset);  offset+=2;
 			for(var i=0; i<cnt; i++) {
@@ -101,7 +110,7 @@ Typr.GSUB.subt = function(data, ltype, offset, ltable)	// lookup type
 	}
 	else console.warn("unsupported GSUB table LookupType", ltype, "format", tab.fmt);
 	//if(tab.coverage.indexOf(3)!=-1) console.warn(ltype, fmt, tab);
-	
+
 	return tab;
 }
 
